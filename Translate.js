@@ -125,6 +125,6 @@ module.exports = function() {
         return { translation: text,
                  frog: false };
     };
-    return Translate;
-}
+    return Translate.prototype;
+};
     
