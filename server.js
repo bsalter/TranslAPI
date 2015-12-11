@@ -1,6 +1,8 @@
 var express = require('express');
 var translator = require('./Translate');
+var fs = require('fs');
 var this_translator = new translator();
+var markdownTrans = require('./markdownTransform');
 
 var app = express();
 
@@ -10,7 +12,12 @@ app.use(function(req, res, next){
 });
 
 app.get('/', function(req, res){
-    res.end("success");
+    var file = fs.createReadStream('README.md');
+
+    file.pipe(markdownTrans()).pipe(res);
+    file.on("finished", function () {
+        res.end();
+    });
 });
 
 app.get('/unzombify', function(req, res){
